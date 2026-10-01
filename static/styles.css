@@ -1029,9 +1029,10 @@ textarea::placeholder {
   right: calc(100% + 10px);
   top: 50%;
   display: none;
-  width: min(280px, 68vw);
-  max-height: 92px;
-  overflow: hidden;
+  width: min(320px, 68vw);
+  max-height: min(40vh, 320px);
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 9px 11px;
   transform: translateY(-50%);
   border: 1px solid rgba(58, 132, 191, 0.2);
@@ -1044,9 +1045,12 @@ textarea::placeholder {
   text-align: left;
   white-space: normal;
   overflow-wrap: anywhere;
+  scrollbar-width: thin;
+  overscroll-behavior: contain;
   pointer-events: none;
 }
 
+.question-nav-item.active .question-tooltip,
 .question-nav-item:hover .question-tooltip,
 .question-nav-item:focus-visible .question-tooltip,
 .question-nav-item.show-tooltip .question-tooltip {

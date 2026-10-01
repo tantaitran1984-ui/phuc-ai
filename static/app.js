@@ -465,7 +465,7 @@ function renderQuestionNav(questions) {
           <button class="question-nav-item${index === questions.length - 1 ? ' active' : ''}"
             type="button" aria-label="Cuộn đến câu hỏi ${index + 1}: ${escapeHtml(label)}"
             title="${escapeHtml(label.slice(0, 180))}">
-            <span class="question-tooltip">${escapeHtml(label.slice(0, 180))}</span>
+            <span class="question-tooltip">${escapeHtml(label)}</span>
           </button>
         `;
       }).join('')}
