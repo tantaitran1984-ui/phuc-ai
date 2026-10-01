@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phúc AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="auth-overlay" class="auth-overlay" hidden>
+      <section class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <div class="auth-heading">
+          <div class="auth-mark">P</div>
+          <div>
+            <span class="auth-eyebrow">PHÚC AI</span>
+            <h2 id="auth-title">Đăng nhập tài khoản</h2>
+          </div>
+        </div>
+        <form id="auth-form">
+          <label for="auth-username">Tên đăng nhập</label>
+          <input id="auth-username" name="username" type="text" minlength="3" maxlength="32" autocomplete="username" placeholder="Nhập tên đăng nhập..." required />
+          <label for="auth-password">Mật khẩu</label>
+          <div class="password-field">
+            <input id="auth-password" name="password" type="password" minlength="8" maxlength="128" autocomplete="current-password" placeholder="Nhập mật khẩu..." required />
+            <button id="password-toggle" class="password-toggle" type="button" aria-label="Hiện mật khẩu">Hiện</button>
+          </div>
+          <p id="auth-error" class="auth-error" role="alert" hidden></p>
+          <button id="auth-submit" class="auth-submit" type="submit">Đăng nhập</button>
+        </form>
+        <p class="auth-switch"><span id="auth-switch-copy">Chưa có tài khoản?</span><button id="auth-switch" type="button">Đăng ký ngay</button></p>
+      </section>
+    </div>
+
+    <div class="app-shell" hidden>
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark">P</div>
+        </div>
+
+        <label class="history-search-wrap">
+          <span class="sr-only">Tìm kiếm cuộc hội thoại</span>
+          <input id="history-search" type="search" placeholder="Tìm kiếm cuộc hội thoại..." autocomplete="off" />
+        </label>
+
+        <button id="new-chat" class="primary-btn" type="button">
+          <span class="new-chat-icon" aria-hidden="true">＋</span>
+          <span>Tạo cuộc hội thoại mới</span>
+        </button>
+
+        <div class="section-label">Hội thoại</div>
+        <div id="history-list" class="history-list"></div>
+
+        <div class="sidebar-footer">
+          <span id="username-label"></span>
+        </div>
+      </aside>
+      <button id="sidebar-scrim" class="sidebar-scrim" type="button" aria-label="Đóng menu" hidden></button>
+
+      <main class="chat-panel">
+        <header class="topbar">
+          <div class="title-wrap">
+            <button id="sidebar-toggle" class="menu-toggle" type="button" aria-label="Mở danh sách hội thoại" aria-expanded="false">
+              <span></span><span></span><span></span>
+            </button>
+            <h1>Phúc AI</h1>
+          </div>
+
+          <div class="toolbar">
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Chuyển sang giao diện tối" aria-pressed="false">
+              <span class="theme-icon" aria-hidden="true">☾</span>
+              <span class="theme-label">Giao diện tối</span>
+            </button>
+            <button id="export-chat" class="ghost-btn">Xuất chat</button>
+            <button id="logout-btn" class="ghost-btn" type="button">Đăng xuất</button>
+          </div>
+        </header>
+
+        <section id="messages" class="messages" aria-live="polite">
+          <div id="message-feed" class="message-feed"></div>
+          <nav id="question-nav" class="question-nav" aria-label="Điều hướng câu hỏi"></nav>
+        </section>
+
+        <div class="composer-card">
+          <div id="attachment-preview" class="attachment-preview"></div>
+
+          <div class="composer-row">
+            <button id="upload-image-btn" class="icon-btn" type="button" aria-label="Đính kèm tệp"><span class="plus-glyph" aria-hidden="true"></span></button>
+            <input id="image-upload" type="file" accept="image/*" hidden />
+            <textarea id="prompt-input" rows="1" placeholder="Nhập câu hỏi hoặc yêu cầu của bạn..."></textarea>
+            <button id="send-btn" class="send-btn" type="button">Gửi</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

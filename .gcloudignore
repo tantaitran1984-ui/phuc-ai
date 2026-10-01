@@ -1,0 +1,8 @@
+.gcloudignore
+.git
+.gitignore
+.env
+instance/
+.venv/
+__pycache__/
+*.pyc
