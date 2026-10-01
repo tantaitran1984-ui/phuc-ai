@@ -34,6 +34,8 @@ const promptInput = document.querySelector('#prompt-input');
 const newChatBtn = document.querySelector('#new-chat');
 const sidebarToggle = document.querySelector('#sidebar-toggle');
 const sidebarScrim = document.querySelector('#sidebar-scrim');
+const installAppBtn = document.querySelector('#install-app-btn');
+const installHelp = document.querySelector('#install-help');
 const sendBtn = document.querySelector('#send-btn');
 const uploadImageBtn = document.querySelector('#upload-image-btn');
 const imageUploadInput = document.querySelector('#image-upload');
@@ -42,12 +44,14 @@ const exportBtn = document.querySelector('#export-chat');
 let legacySessions = loadSessions(STORAGE_KEY);
 let historySyncQueue = Promise.resolve();
 let lastHeartAt = 0;
+let deferredInstallPrompt = null;
 
 init();
 
 async function init() {
   bindEvents();
   bindAuthEvents();
+  configureAppInstall();
   applyTheme(localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light');
   await restoreAuthentication();
 }
@@ -80,6 +84,7 @@ function bindEvents() {
   imageUploadInput.addEventListener('change', handleFileSelection);
   exportBtn.addEventListener('click', exportChat);
   logoutBtn.addEventListener('click', logout);
+  installAppBtn.addEventListener('click', installApp);
   themeToggle.addEventListener('click', () => {
     const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     applyTheme(nextTheme);
@@ -88,6 +93,45 @@ function bindEvents() {
 
   window.addEventListener('pointerdown', addHeartTrail, { passive: true });
   window.addEventListener('pointermove', addHeartTrail, { passive: true });
+}
+
+function configureAppInstall() {
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  installAppBtn.hidden = isStandalone;
+
+  if ('serviceWorker' in navigator && (isSecureContext || location.hostname === 'localhost')) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    installAppBtn.hidden = false;
+    installHelp.hidden = true;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    installAppBtn.hidden = true;
+    installHelp.hidden = true;
+  });
+}
+
+async function installApp() {
+  if (!deferredInstallPrompt) {
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
+      || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    installHelp.textContent = isIos
+      ? 'Trong Safari, chạm Chia sẻ rồi chọn “Thêm vào Màn hình chính”.'
+      : 'Mở menu trình duyệt rồi chọn “Cài đặt ứng dụng” hoặc “Install app”.';
+    installHelp.hidden = false;
+    return;
+  }
+
+  await deferredInstallPrompt.prompt();
+  const choice = await deferredInstallPrompt.userChoice;
+  if (choice.outcome === 'accepted') installAppBtn.hidden = true;
+  deferredInstallPrompt = null;
 }
 
 function bindAuthEvents() {

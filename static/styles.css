@@ -184,6 +184,25 @@ button:hover, .ghost-btn:hover, .send-btn:hover, .icon-btn:hover {
   font-size: 0.88rem;
 }
 
+.install-app-btn {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(58, 132, 191, 0.24);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.install-help {
+  margin: -4px 4px 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 .section-label {
   color: var(--muted);
   font-size: 0.72rem;
@@ -1058,6 +1077,12 @@ textarea::placeholder {
 }
 
 :root[data-theme="dark"] .history-search-wrap input {
+  border-color: rgba(122, 192, 226, 0.24);
+  background: #102b40;
+  color: #e3f4ff;
+}
+
+:root[data-theme="dark"] .install-app-btn {
   border-color: rgba(122, 192, 226, 0.24);
   background: #102b40;
   color: #e3f4ff;
